@@ -1,0 +1,53 @@
+@model IEnumerable<EC2_PROGRA1.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Gestión de Inmuebles";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CrearInmueble" class="btn btn-primary">Crear Nuevo Inmueble</a>
+</p>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Título</th>
+            <th>Ciudad</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Codigo</td>
+            <td>@item.Titulo</td>
+            <td>@item.Ciudad</td>
+            <td>@item.Precio.ToString("C0")</td>
+            <td>
+                @if (item.Activo)
+                {
+                    <span class="badge bg-success">Activo</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Inactivo</span>
+                }
+            </td>
+            <td>
+                <a asp-action="EditarInmueble" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Editar</a>
+                <a asp-controller="Inmuebles" asp-action="Detalle" asp-route-id="@item.Id" class="btn btn-sm btn-info" target="_blank">Ver</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

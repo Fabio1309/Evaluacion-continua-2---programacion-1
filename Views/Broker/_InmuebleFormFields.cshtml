@@ -1,0 +1,84 @@
+@model EC2_PROGRA1.Models.Inmueble
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Codigo" class="control-label"></label>
+            <input asp-for="Codigo" class="form-control" />
+            <span asp-validation-for="Codigo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Titulo" class="control-label"></label>
+            <input asp-for="Titulo" class="form-control" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="Imagen" class="control-label">URL de la Imagen</label>
+    <input asp-for="Imagen" class="form-control" />
+    <span asp-validation-for="Imagen" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Tipo" class="control-label"></label>
+            <select asp-for="Tipo" asp-items="Html.GetEnumSelectList<TipoInmueble>()" class="form-control"></select>
+            <span asp-validation-for="Tipo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Ciudad" class="control-label"></label>
+            <input asp-for="Ciudad" class="form-control" />
+            <span asp-validation-for="Ciudad" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="Direccion" class="control-label"></label>
+    <input asp-for="Direccion" class="form-control" />
+    <span asp-validation-for="Direccion" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="Dormitorios" class="control-label"></label>
+            <input asp-for="Dormitorios" class="form-control" />
+            <span asp-validation-for="Dormitorios" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="Banos" class="control-label">Baños</label>
+            <input asp-for="Banos" class="form-control" />
+            <span asp-validation-for="Banos" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="MetrosCuadrados" class="control-label"></label>
+            <input asp-for="MetrosCuadrados" class="form-control" />
+            <span asp-validation-for="MetrosCuadrados" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label asp-for="Precio" class="control-label"></label>
+            <input asp-for="Precio" class="form-control" />
+            <span asp-validation-for="Precio" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group form-check mt-2">
+    <label class="form-check-label">
+        <input class="form-check-input" asp-for="Activo" /> @Html.DisplayNameFor(model => model.Activo)
+    </label>
+</div>

@@ -1,0 +1,107 @@
+@model EC2_PROGRA1.Models.BrokerDashboardViewModel
+@{
+    ViewData["Title"] = "Panel de Broker";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Bienvenido al panel de administración.</p>
+
+<!-- AÑADE ESTE ENLACE -->
+<div class="mb-3">
+    <a asp-action="Inmuebles" class="btn btn-outline-primary">Gestionar Inmuebles</a>
+</div>
+
+<hr />
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<div class="row">
+    <!-- Columna de Visitas del Día -->
+    <div class="col-md-6">
+        <h3>Agenda del Día (@DateTime.Today.ToShortDateString())</h3>
+        @if (!Model.VisitasDeHoy.Any())
+        {
+            <p>No hay visitas programadas para hoy.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Inmueble</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var visita in Model.VisitasDeHoy)
+                    {
+                        <tr>
+                            <td>@visita.FechaInicio.ToShortTimeString() - @visita.FechaFin.ToShortTimeString()</td>
+                            <td>@visita.Inmueble.Titulo</td>
+                            <td>
+                                <span class="badge bg-@(visita.Estado == EstadoVisita.Confirmada ? "success" : "warning")">
+                                    @visita.Estado
+                                </span>
+                            </td>
+                            <td>
+                                @if (visita.Estado == EstadoVisita.Solicitada)
+                                {
+                                    <form asp-action="ConfirmarVisita" asp-route-id="@visita.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-success">Confirmar</button>
+                                    </form>
+                                }
+                                <form asp-action="CancelarVisita" asp-route-id="@visita.Id" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <!-- Columna de Reservas Activas -->
+    <div class="col-md-6">
+        <h3>Reservas Activas</h3>
+        @if (!Model.ReservasActivas.Any())
+        {
+            <p>No hay reservas activas en este momento.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Expira</th>
+                        <th>Inmueble</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reserva in Model.ReservasActivas)
+                    {
+                        <tr>
+                            <td>@reserva.FechaExpiracion.ToString("g")</td>
+                            <td>@reserva.Inmueble.Titulo</td>
+                            <td>
+                                <form asp-action="LiberarReserva" asp-route-id="@reserva.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-warning">Liberar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

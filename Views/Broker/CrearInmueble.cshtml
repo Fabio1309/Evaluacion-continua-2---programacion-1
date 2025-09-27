@@ -1,0 +1,27 @@
+@model EC2_PROGRA1.Models.Inmueble
+
+@{
+    ViewData["Title"] = "Crear Nuevo Inmueble";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CrearInmueble">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            @* Incluimos el formulario parcial para no repetir código *@
+            <partial name="_InmuebleFormFields" model="Model" />
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Inmuebles" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
