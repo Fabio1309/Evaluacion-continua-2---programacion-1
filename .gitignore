@@ -1,2 +1,6 @@
 obj/
 bin/
+# SQLite database
+*.db
+*.db-shm
+*.db-wal
