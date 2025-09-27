@@ -4,6 +4,17 @@
     ViewData["Title"] = Model.Titulo;
 }
 
+<!-- SECCIÓN PARA MOSTRAR MENSAJES DE FEEDBACK (ÉXITO/ERROR) -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+
 <h1>@Model.Titulo</h1>
 <hr />
 
@@ -22,9 +33,60 @@
             <li class="list-group-item"><strong>Dormitorios:</strong> @Model.Dormitorios</li>
             <li class="list-group-item"><strong>Baños:</strong> @Model.Banos</li>
         </ul>
-        <div class="mt-4">
-            <a href="#" class="btn btn-success btn-lg">Agendar Visita</a>
-        </div>
+
+        <!-- SECCIÓN DE ACCIONES (SOLO PARA USUARIOS AUTENTICADOS) -->
+        @if (User.Identity?.IsAuthenticated == true)
+
+        {
+            <div class="card mt-4">
+                <div class="card-header">
+                    Acciones
+                </div>
+                <div class="card-body">
+                    <!-- BOTÓN RESERVAR (condicional) -->
+                    @if ((bool)ViewBag.TieneReservaActiva)
+                    {
+                        <div class="alert alert-warning">Este inmueble ya se encuentra reservado.</div>
+                    }
+                    else
+                    {
+                        <form asp-action="Reservar" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="inmuebleId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-warning btn-lg w-100 mb-3">Reservar ahora (48h)</button>
+                        </form>
+                    }
+
+                    <!-- FORMULARIO AGENDAR VISITA -->
+                    <hr>
+                    <h5 class="card-title mt-2">Agendar una Visita</h5>
+                    <form asp-action="AgendarVisita" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="inmuebleId" value="@Model.Id" />
+                        <div class="mb-2">
+                            <label>Inicio</label>
+                            <input type="datetime-local" name="fechaInicio" class="form-control" required />
+                        </div>
+                        <div class="mb-2">
+                            <label>Fin</label>
+                            <input type="datetime-local" name="fechaFin" class="form-control" required />
+                        </div>
+                        <div class="mb-2">
+                            <label>Notas (Opcional)</label>
+                            <textarea name="notas" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Agendar Visita</button>
+                    </form>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info mt-4">
+                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">Inicia sesión</a> para agendar una visita o reservar.
+            </div>
+        }
+
     </div>
 </div>
 <div class="mt-4">
