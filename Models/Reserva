@@ -1,0 +1,21 @@
+// Models/Reserva.cs
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+
+namespace EC2_PROGRA1.Models;
+
+public class Reserva
+{
+    public int Id { get; set; }
+
+    [Required]
+    public int InmuebleId { get; set; }
+    public Inmueble Inmueble { get; set; } // Propiedad de navegación
+
+    [Required]
+    public string UsuarioId { get; set; }
+    public IdentityUser Usuario { get; set; } // Propiedad de navegación
+
+    public DateTime FechaExpiracion { get; set; }
+    public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+}
