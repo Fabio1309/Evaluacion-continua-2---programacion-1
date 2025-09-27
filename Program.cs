@@ -12,9 +12,20 @@ var builder = WebApplication.CreateBuilder(args);
 // --- 3. Configuración de Servicios en el Contenedor de Inyección de Dependencias ---
 
 // 3.1 - Conexión a la Base de Datos (Entity Framework Core)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+if (builder.Environment.IsProduction())
+{
+    // Usa PostgreSQL en producción
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // Usa SQLite en desarrollo
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite(connectionString));
+}
 
 // 3.2 - Herramientas de Desarrollo para la Base de Datos
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
