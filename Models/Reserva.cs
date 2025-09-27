@@ -10,11 +10,11 @@ public class Reserva
 
     [Required]
     public int InmuebleId { get; set; }
-    public Inmueble Inmueble { get; set; } // Propiedad de navegación
+    public Inmueble Inmueble { get; set; } = null!; // Corregido
 
     [Required]
-    public string UsuarioId { get; set; }
-    public IdentityUser Usuario { get; set; } // Propiedad de navegación
+    public string UsuarioId { get; set; } = null!; // Corregido
+    public IdentityUser Usuario { get; set; } = null!; // Corregido
 
     public DateTime FechaExpiracion { get; set; }
     public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;

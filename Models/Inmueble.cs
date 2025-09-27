@@ -7,10 +7,7 @@ namespace EC2_PROGRA1.Models;
 
 public enum TipoInmueble
 {
-    Departamento,
-    Casa,
-    Oficina,
-    Local
+    Departamento, Casa, Oficina, Local
 }
 
 [Index(nameof(Codigo), IsUnique = true)]
@@ -19,10 +16,10 @@ public class Inmueble
     public int Id { get; set; }
 
     [Required]
-    public string Codigo { get; set; }
+    public string Codigo { get; set; } = null!; // Corregido
 
     [Required]
-    public string Titulo { get; set; }
+    public string Titulo { get; set; } = null!; // Corregido
 
     public string? Imagen { get; set; }
 
@@ -30,13 +27,12 @@ public class Inmueble
     public TipoInmueble Tipo { get; set; }
 
     [Required]
-    public string Ciudad { get; set; }
+    public string Ciudad { get; set; } = null!; // Corregido
 
     [Required]
-    public string Direccion { get; set; }
+    public string Direccion { get; set; } = null!; // Corregido
 
     public int Dormitorios { get; set; }
-
     public int Banos { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "Los metros cuadrados deben ser mayores a 0.")]
