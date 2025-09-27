@@ -1,0 +1,32 @@
+@model EC2_PROGRA1.Models.Inmueble
+
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+
+<h1>@Model.Titulo</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <img src="@Model.Imagen" class="img-fluid rounded" alt="Imagen de @Model.Titulo" />
+    </div>
+    <div class="col-md-4">
+        <h3>Detalles</h3>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>Precio:</strong> @Model.Precio.ToString("C0")</li>
+            <li class="list-group-item"><strong>Ciudad:</strong> @Model.Ciudad</li>
+            <li class="list-group-item"><strong>Dirección:</strong> @Model.Direccion</li>
+            <li class="list-group-item"><strong>Tipo:</strong> @Model.Tipo</li>
+            <li class="list-group-item"><strong>Área:</strong> @Model.MetrosCuadrados m²</li>
+            <li class="list-group-item"><strong>Dormitorios:</strong> @Model.Dormitorios</li>
+            <li class="list-group-item"><strong>Baños:</strong> @Model.Banos</li>
+        </ul>
+        <div class="mt-4">
+            <a href="#" class="btn btn-success btn-lg">Agendar Visita</a>
+        </div>
+    </div>
+</div>
+<div class="mt-4">
+    <a asp-action="Catalogo">Volver al Catálogo</a>
+</div>
